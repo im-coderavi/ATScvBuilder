@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-slate-900 text-white font-sans antialiased overflow-x-hidden;
+    }
+
+    /* Fix cursor blinking on buttons */
+    button,
+    a,
+    [role="button"] {
+        cursor: pointer;
+        outline: none;
+    }
+
+    button:focus,
+    a:focus {
+        outline: none;
+    }
+
+    /* Remove default focus ring that causes blinking */
+    *:focus {
+        outline: none;
+    }
+
+    *:focus-visible {
+        outline: 2px solid rgba(139, 92, 246, 0.5);
+        outline-offset: 2px;
+    }
+}
+
+@layer utilities {
+    .glass {
+        @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    }
+
+    .glass-hover {
+        @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+    }
+
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-cyan-400;
+    }
+
+    .text-gradient-purple {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400;
+    }
+
+    /* Hide scrollbar but keep functionality */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Smooth transition for all interactive elements */
+    .interactive {
+        @apply transition-all duration-200 ease-out;
+    }
+
+    /* Card hover effect */
+    .card-hover {
+        @apply hover:shadow-lg hover:shadow-violet-500/10 hover:-translate-y-0.5 transition-all duration-300;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-700/50 rounded-full hover:bg-slate-600 transition-colors;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Responsive text utilities */
+@media (max-width: 640px) {
+    .responsive-heading {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* RGB Pulse Animations for Homepage */
+@keyframes rgb-pulse-1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+
+    25% {
+        transform: translate(50px, 30px) scale(1.1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-30px, 60px) scale(0.9);
+        opacity: 0.25;
+    }
+
+    75% {
+        transform: translate(-60px, -20px) scale(1.05);
+        opacity: 0.35;
+    }
+}
+
+@keyframes rgb-pulse-2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.25;
+    }
+
+    33% {
+        transform: translate(-60px, 40px) scale(1.15);
+        opacity: 0.35;
+    }
+
+    66% {
+        transform: translate(40px, -50px) scale(0.85);
+        opacity: 0.2;
+    }
+}
+
+@keyframes rgb-pulse-3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translate(80px, -40px) scale(1.2);
+        opacity: 0.3;
+    }
+}
+
+@keyframes rgb-pulse-4 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.2;
+    }
+
+    40% {
+        transform: translate(-70px, 50px) scale(1.1);
+        opacity: 0.25;
+    }
+
+    80% {
+        transform: translate(50px, 30px) scale(0.9);
+        opacity: 0.15;
+    }
+}
+
+.animate-rgb-pulse-1 {
+    animation: rgb-pulse-1 15s ease-in-out infinite;
+}
+
+.animate-rgb-pulse-2 {
+    animation: rgb-pulse-2 18s ease-in-out infinite;
+}
+
+.animate-rgb-pulse-3 {
+    animation: rgb-pulse-3 12s ease-in-out infinite;
+}
+
+.animate-rgb-pulse-4 {
+    animation: rgb-pulse-4 20s ease-in-out infinite;
+}
+
+/* Gradient X Animation */
+@keyframes gradient-x {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.animate-gradient-x {
+    animation: gradient-x 4s ease infinite;
+}
+
+/* Blink Animation */
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.animate-blink {
+    animation: blink 1s step-end infinite;
+}
+
+/* Blob Animation */
+@keyframes blob {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(20px, -30px) scale(1.05);
+    }
+
+    50% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+
+    75% {
+        transform: translate(-30px, -10px) scale(1.02);
+    }
+}
+
+.animate-blob {
+    animation: blob 10s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Rainbow border animation */
+@keyframes rainbow-border {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animate-rainbow-border {
+    background-size: 300% 300%;
+    animation: rainbow-border 3s ease infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Glow pulse */
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 60px rgba(6, 182, 212, 0.3);
+    }
+}
+
+.animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Marquee animation for scrolling text */
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    display: inline-flex;
+    animation: marquee 20s linear infinite;
+}
+
+/* Size utility for width and height */
+.size-3 {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.size-4 {
+    width: 1rem;
+    height: 1rem;
+}
+
+.size-5 {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.size-6 {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.size-12 {
+    width: 3rem;
+    height: 3rem;
+}
