@@ -125,6 +125,14 @@ const Editor = () => {
         } catch (error) {
             console.error('Autosave failed:', error);
             setAutoSaveStatus('error');
+            // Show error toast for debugging
+            if (error.response?.status === 401) {
+                toast.error('Session expired. Please login again.');
+            } else if (error.response?.status === 404) {
+                toast.error('Resume not found. It may have been deleted.');
+            } else {
+                toast.error('Auto-save failed. Changes saved locally.');
+            }
             // Keep localStorage draft as backup
         }
     }, [id, clearDraftFromLocalStorage]);
