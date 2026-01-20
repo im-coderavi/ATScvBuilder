@@ -158,6 +158,7 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
                         {skills.cloud?.length > 0 && <p><strong>Cloud & DevOps:</strong> {skills.cloud.join(', ')}</p>}
                         {skills.tools?.length > 0 && <p><strong>Tools:</strong> {skills.tools.join(', ')}</p>}
                         {skills.methodologies?.length > 0 && <p><strong>Methodologies:</strong> {skills.methodologies.join(', ')}</p>}
+                        {skills.coreCS?.length > 0 && <p><strong>Core CS:</strong> {skills.coreCS.join(', ')}</p>}
                         {skills.soft?.length > 0 && <p><strong>Soft Skills:</strong> {skills.soft.join(', ')}</p>}
                         {skills.technical?.length > 0 && <p><strong>Technical:</strong> {skills.technical.join(', ')}</p>}
                     </div>

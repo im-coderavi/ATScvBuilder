@@ -250,6 +250,9 @@ const ModernTemplate = ({ resumeData, fontFamily = 'Inter', accentColor = '#2563
                         {skills.methodologies?.map((skill, i) => (
                             <span key={`meth-${i}`} className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{skill}</span>
                         ))}
+                        {skills.coreCS?.map((skill, i) => (
+                            <span key={`cs-${i}`} className="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full">{skill}</span>
+                        ))}
                         {skills.soft?.map((skill, i) => (
                             <span key={`soft-${i}`} className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">{skill}</span>
                         ))}

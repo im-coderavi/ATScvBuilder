@@ -347,6 +347,7 @@ const createResume = async (req, res) => {
                 cloud: [],
                 tools: [],
                 methodologies: [],
+                coreCS: [],
                 soft: []
             },
             projects: [],

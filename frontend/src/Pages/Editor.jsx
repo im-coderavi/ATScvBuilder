@@ -932,6 +932,25 @@ const Editor = () => {
                                                 </div>
                                             </div>
 
+                                            {/* Core CS Skills Section */}
+                                            <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl p-4 border border-emerald-500/20">
+                                                <h4 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+                                                    <span className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">🧠</span>
+                                                    Core CS Skills
+                                                </h4>
+                                                <div className="bg-slate-800/50 rounded-xl p-3 border border-white/5">
+                                                    <TagsInput
+                                                        label="DSA, OOPs & CS Fundamentals"
+                                                        value={resumeData?.skills?.coreCS || []}
+                                                        onChange={(tags) => setResumeData(prev => ({
+                                                            ...prev, skills: { ...prev?.skills, coreCS: tags }
+                                                        }))}
+                                                        placeholder="Arrays, Trees, OOPs, DBMS, OS, Networking, System Design..."
+                                                        tagColor="emerald"
+                                                    />
+                                                </div>
+                                            </div>
+
                                             {/* Soft Skills Section */}
                                             <div className="bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl p-4 border border-blue-500/20">
                                                 <h4 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
