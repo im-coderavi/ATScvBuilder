@@ -337,28 +337,11 @@ const Editor = () => {
         try {
             const { default: html2pdf } = await import('html2pdf.js');
 
-            // Clone the preview element and apply print-specific styles
             const element = previewRef.current;
-            const clone = element.cloneNode(true);
-
-            // Apply print-specific styles to ensure single page rendering
-            clone.style.width = '210mm';
-            clone.style.height = '297mm';
-            clone.style.minHeight = '297mm';
-            clone.style.maxHeight = '297mm';
-            clone.style.overflow = 'hidden';
-            clone.style.boxSizing = 'border-box';
-            clone.style.backgroundColor = '#ffffff';
-            clone.style.padding = '0';
-            clone.style.margin = '0';
-            clone.style.transform = 'none';
-            clone.style.transformOrigin = 'top left';
-
-            // Temporarily append clone to document for rendering
-            clone.style.position = 'absolute';
-            clone.style.left = '-9999px';
-            clone.style.top = '0';
-            document.body.appendChild(clone);
+            if (!element) {
+                toast.error('Preview not found', { id: 'pdf' });
+                return;
+            }
 
             const opt = {
                 margin: 0,
@@ -367,39 +350,21 @@ const Editor = () => {
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true,
                     logging: false,
-                    width: 794,
-                    height: 1123,
-                    windowWidth: 794,
-                    windowHeight: 1123,
-                    x: 0,
-                    y: 0,
-                    scrollX: 0,
-                    scrollY: 0,
                     backgroundColor: '#ffffff',
-                    removeContainer: true
+                    allowTaint: true
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'a4',
-                    orientation: 'portrait',
-                    compress: true,
-                    precision: 16,
-                    putOnlyUsedFonts: true
+                    orientation: 'portrait'
                 },
                 pagebreak: {
-                    mode: 'avoid-all',
-                    before: [],
-                    after: [],
-                    avoid: '*'
+                    mode: 'avoid-all'
                 }
             };
 
-            await html2pdf().set(opt).from(clone).save();
-
-            // Remove the clone after PDF generation
-            document.body.removeChild(clone);
+            await html2pdf().set(opt).from(element).save();
 
             toast.success('Downloaded!', { id: 'pdf' });
         } catch (e) {
