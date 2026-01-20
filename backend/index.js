@@ -7,7 +7,11 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for production
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -19,6 +23,12 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-const PORT = process.env.PORT || 5000;
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+}
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// Export for Vercel
+module.exports = app;
+
