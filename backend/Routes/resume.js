@@ -10,7 +10,8 @@ const {
     deleteResume,
     createResume,
     renameResume,
-    analyzeATS
+    analyzeATS,
+    generateAISummary
 } = require('../Controllers/resumeController');
 const { protect } = require('../Middleware/auth');
 const upload = require('../Middleware/upload');
@@ -45,6 +46,9 @@ router.post('/:id/regenerate', protect, regenerateResume);
 // Delete resume
 router.delete('/:id', protect, deleteResume);
 router.patch('/:id/title', protect, renameResume);
+
+// Generate AI Summary
+router.post('/:id/generate-summary', protect, generateAISummary);
 
 module.exports = router;
 

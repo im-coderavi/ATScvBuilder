@@ -647,6 +647,105 @@ const analyzeATS = async (req, res) => {
     }
 };
 
+// @desc    Generate AI Professional Summary
+// @route   POST /api/resumes/:id/generate-summary
+// @access  Private
+const generateAISummary = async (req, res) => {
+    try {
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({ message: 'User not authenticated' });
+        }
+
+        const resume = await Resume.findOne({ _id: req.params.id, userId: req.user._id });
+
+        if (!resume) {
+            return res.status(404).json({ message: 'Resume not found' });
+        }
+
+        const resumeData = resume.resumeData || {};
+        const { jobTitle, tone } = req.body; // Optional parameters
+
+        // Build context from resume data
+        const context = {
+            name: resumeData.personalInfo?.fullName || '',
+            title: resumeData.personalInfo?.title || jobTitle || '',
+            experience: resumeData.experience || [],
+            skills: resumeData.skills || {},
+            education: resumeData.education || []
+        };
+
+        // Calculate years of experience
+        let totalYears = 0;
+        if (context.experience.length > 0) {
+            context.experience.forEach(exp => {
+                if (exp.startDate) {
+                    const start = new Date(exp.startDate);
+                    const end = exp.current ? new Date() : (exp.endDate ? new Date(exp.endDate) : new Date());
+                    totalYears += (end - start) / (1000 * 60 * 60 * 24 * 365);
+                }
+            });
+        }
+        const yearsExp = Math.round(totalYears);
+
+        // Get top skills
+        const allSkills = [
+            ...(context.skills.technical || []),
+            ...(context.skills.languages || []),
+            ...(context.skills.frameworks || []),
+            ...(context.skills.tools || [])
+        ].slice(0, 8);
+
+        // Get recent job titles
+        const recentTitles = context.experience.slice(0, 3).map(e => e.title).filter(Boolean);
+
+        // Build the prompt
+        const prompt = `Generate a professional resume summary (3-4 sentences, 50-80 words) for:
+
+Role: ${context.title || recentTitles[0] || 'Professional'}
+Years of Experience: ${yearsExp > 0 ? yearsExp + '+ years' : 'Entry-level'}
+Key Skills: ${allSkills.join(', ') || 'Various technical skills'}
+Recent Positions: ${recentTitles.join(', ') || 'N/A'}
+${tone ? `Tone: ${tone}` : 'Tone: Professional and confident'}
+
+Requirements:
+- Start with a strong opening (e.g., "Results-driven...", "Experienced...", "Dynamic...")
+- Highlight key achievements and expertise areas
+- Include specific technical skills relevant to the role
+- End with value proposition or career goal
+- Make it ATS-friendly with relevant keywords
+- Do NOT use placeholder text or brackets
+- Write in third person
+
+Return ONLY the summary text, no quotes or extra formatting.`;
+
+        // Call Gemini API
+        const { GoogleGenerativeAI } = require('@google/generative-ai');
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+        const result = await model.generateContent(prompt);
+        const summary = result.response.text().trim();
+
+        // Clean up the summary
+        let cleanSummary = summary
+            .replace(/^["']|["']$/g, '') // Remove quotes
+            .replace(/\n+/g, ' ') // Remove newlines
+            .trim();
+
+        res.json({
+            success: true,
+            summary: cleanSummary
+        });
+
+    } catch (error) {
+        console.error('AI Summary Generation Error:', error);
+        res.status(500).json({
+            message: 'Failed to generate summary',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     uploadResume,
     getResumes,
@@ -657,5 +756,7 @@ module.exports = {
     deleteResume,
     createResume,
     renameResume,
-    analyzeATS
+    analyzeATS,
+    generateAISummary
 };
+

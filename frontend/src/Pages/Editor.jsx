@@ -60,6 +60,7 @@ const Editor = () => {
     // Autosave states
     const [autoSaveStatus, setAutoSaveStatus] = useState('saved'); // 'saved', 'saving', 'unsaved', 'error'
     const [lastAutoSaved, setLastAutoSaved] = useState(null);
+    const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
 
     // LocalStorage key for draft
     const DRAFT_STORAGE_KEY = `resume_draft_${id}`;
@@ -697,12 +698,44 @@ const Editor = () => {
 
                                 {editingSection === 'summary' && (
                                     <FormSection title="Professional Summary">
-                                        <textarea
-                                            value={resumeData?.summary || ''}
-                                            onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
-                                            className="w-full h-40 bg-slate-800/50 border border-white/10 rounded-xl p-4 text-sm text-white focus:ring-2 focus:ring-violet-500 outline-none resize-none"
-                                            placeholder="Write a compelling professional summary..."
-                                        />
+                                        <div className="space-y-3">
+                                            <textarea
+                                                value={resumeData?.summary || ''}
+                                                onChange={(e) => setResumeData(prev => ({ ...prev, summary: e.target.value }))}
+                                                className="w-full h-40 bg-slate-800/50 border border-white/10 rounded-xl p-4 text-sm text-white focus:ring-2 focus:ring-violet-500 outline-none resize-none"
+                                                placeholder="Write a compelling professional summary..."
+                                            />
+                                            <button
+                                                onClick={async () => {
+                                                    setIsGeneratingSummary(true);
+                                                    try {
+                                                        const response = await api.post(`/resumes/${id}/generate-summary`, {
+                                                            jobTitle: resumeData?.personalInfo?.title || ''
+                                                        }, { baseURL: API_BASE_URL });
+                                                        if (response.data.success) {
+                                                            setResumeData(prev => ({ ...prev, summary: response.data.summary }));
+                                                            toast.success('Summary generated!');
+                                                        }
+                                                    } catch (error) {
+                                                        console.error('Generate summary error:', error);
+                                                        toast.error('Failed to generate summary');
+                                                    } finally {
+                                                        setIsGeneratingSummary(false);
+                                                    }
+                                                }}
+                                                disabled={isGeneratingSummary}
+                                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500 text-white text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/20"
+                                            >
+                                                {isGeneratingSummary ? (
+                                                    <><Loader className="h-4 w-4 animate-spin" /> Generating...</>
+                                                ) : (
+                                                    <><Sparkles className="h-4 w-4" /> Generate with AI</>
+                                                )}
+                                            </button>
+                                            <p className="text-xs text-gray-500">
+                                                AI will create a summary based on your experience and skills
+                                            </p>
+                                        </div>
                                     </FormSection>
                                 )}
 
