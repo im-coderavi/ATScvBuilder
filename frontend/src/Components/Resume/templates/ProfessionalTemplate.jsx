@@ -51,9 +51,11 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
             {/* Summary */}
             {(summary || isBlankResume) && (
                 <div className="mb-3">
-                    <h2 className="text-xs font-bold uppercase pb-0.5 mb-1 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Professional Summary
-                    </h2>
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Professional Summary
+                        </h2>
+                    </div>
                     <p className={`text-xs leading-snug text-justify ${summary ? 'text-gray-800' : placeholderStyle}`}>
                         {summary || '[Write a compelling 2-3 sentence summary highlighting your experience, key skills, and career goals...]'}
                     </p>
@@ -63,9 +65,11 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
             {/* Experience */}
             {(experience?.length > 0 || isBlankResume) && (
                 <div className="mb-3">
-                    <h2 className="text-xs font-bold uppercase pb-0.5 mb-1 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Professional Experience
-                    </h2>
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Professional Experience
+                        </h2>
+                    </div>
                     {experience?.length > 0 ? experience.map((exp, i) => (
                         <div key={i} className="mb-2">
                             <div className="flex justify-between items-baseline">
@@ -110,9 +114,11 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
             {/* Education */}
             {(education?.length > 0 || isBlankResume) && (
                 <div className="mb-3">
-                    <h2 className="text-xs font-bold uppercase pb-0.5 mb-1 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Education
-                    </h2>
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Education
+                        </h2>
+                    </div>
                     {education?.length > 0 ? education.map((edu, i) => (
                         <div key={i} className="mb-1.5">
                             <div className="flex justify-between items-baseline">
@@ -148,9 +154,11 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
             {/* Skills */}
             {(skills && Object.keys(skills).some(k => skills[k]?.length > 0)) ? (
                 <div className="mb-3">
-                    <h2 className="text-xs font-bold uppercase pb-0.5 mb-1 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Skills
-                    </h2>
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Skills
+                        </h2>
+                    </div>
                     <div className="text-xs text-gray-700 space-y-0.5">
                         {skills.languages?.length > 0 && <p><strong>Languages:</strong> {skills.languages.join(', ')}</p>}
                         {skills.frameworks?.length > 0 && <p><strong>Frameworks:</strong> {skills.frameworks.join(', ')}</p>}
@@ -164,11 +172,13 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
                     </div>
                 </div>
             ) : isBlankResume && (
-                <div className="mb-4">
-                    <h2 className="text-sm font-bold uppercase pb-1 mb-2 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Skills
-                    </h2>
-                    <div className={`text-sm space-y-1 ${placeholderStyle}`}>
+                <div className="mb-3">
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Skills
+                        </h2>
+                    </div>
+                    <div className={`text-xs space-y-0.5 ${placeholderStyle}`}>
                         <p><strong>Programming Languages:</strong> [JavaScript, Python, Java...]</p>
                         <p><strong>Frameworks:</strong> [React, Node.js, Express...]</p>
                         <p><strong>Tools:</strong> [Git, Docker, VS Code...]</p>
@@ -179,9 +189,11 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
             {/* Projects */}
             {(projects?.length > 0 || isBlankResume) && (
                 <div className="mb-3">
-                    <h2 className="text-xs font-bold uppercase pb-0.5 mb-1 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Projects
-                    </h2>
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Projects
+                        </h2>
+                    </div>
                     {projects?.length > 0 ? projects.map((proj, i) => (
                         <div key={i} className="mb-1.5">
                             <div className="flex justify-between items-baseline">
@@ -223,10 +235,12 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
 
             {/* Certifications */}
             {certifications?.length > 0 && (
-                <div className="mb-4">
-                    <h2 className="text-sm font-bold uppercase pb-1 mb-2 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Certifications
-                    </h2>
+                <div className="mb-3">
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Certifications
+                        </h2>
+                    </div>
                     {certifications.map((cert, i) => (
                         <div key={i} className="text-sm text-gray-700 mb-1">
                             <span className="font-medium">{cert.name}</span>
@@ -241,10 +255,12 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
 
             {/* Spoken Languages */}
             {spokenLanguages?.length > 0 && (
-                <div className="mb-4">
-                    <h2 className="text-sm font-bold uppercase pb-1 mb-2 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Languages
-                    </h2>
+                <div className="mb-3">
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Languages
+                        </h2>
+                    </div>
                     <div className="text-sm text-gray-700 flex flex-wrap gap-3">
                         {spokenLanguages.map((lang, i) => (
                             <span key={i}>
@@ -258,10 +274,12 @@ const ProfessionalTemplate = ({ resumeData, fontFamily = 'Georgia', accentColor 
 
             {/* Awards */}
             {awards?.length > 0 && (
-                <div className="mb-4">
-                    <h2 className="text-sm font-bold uppercase pb-1 mb-2 tracking-wider" style={{ color: accentColor, borderBottom: `1px solid ${accentColor}` }}>
-                        Awards & Achievements
-                    </h2>
+                <div className="mb-3">
+                    <div style={{ borderBottom: `1px solid ${accentColor}`, marginBottom: '4px', paddingBottom: '2px' }}>
+                        <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: accentColor, lineHeight: '1.2', marginBottom: '0' }}>
+                            Awards & Achievements
+                        </h2>
+                    </div>
                     {awards.map((award, i) => (
                         <div key={i} className="text-sm text-gray-700 mb-1">
                             <span className="font-medium">{award.title}</span>
