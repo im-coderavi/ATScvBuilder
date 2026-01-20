@@ -6,7 +6,7 @@ import {
     Plus, Trash2, CheckCircle, AlertCircle, Sparkles, Layout, ChevronDown,
     Type, Palette, X, Menu, ChevronLeft, ChevronRight, Cloud, CloudOff
 } from 'lucide-react';
-import api from '../Services/api';
+import api, { API_BASE_URL } from '../Services/api';
 import toast from 'react-hot-toast';
 
 // Import UI Components
@@ -115,7 +115,7 @@ const Editor = () => {
 
         setAutoSaveStatus('saving');
         try {
-            const response = await api.put(`/resumes/${id}`, { resumeData: data }, { baseURL: 'http://localhost:5000/api' });
+            const response = await api.put(`/resumes/${id}`, { resumeData: data }, { baseURL: API_BASE_URL });
             setAtsScore(response.data.atsScore);
             lastSavedDataRef.current = currentDataStr;
             setAutoSaveStatus('saved');
@@ -158,7 +158,7 @@ const Editor = () => {
     useEffect(() => {
         const fetchResume = async () => {
             try {
-                const response = await api.get(`/resumes/${id}`, { baseURL: 'http://localhost:5000/api' });
+                const response = await api.get(`/resumes/${id}`, { baseURL: API_BASE_URL });
                 setResume(response.data);
 
                 // Check for local draft
@@ -188,7 +188,7 @@ const Editor = () => {
 
                     pollIntervalRef.current = setInterval(async () => {
                         try {
-                            const pollResponse = await api.get(`/resumes/${id}`, { baseURL: 'http://localhost:5000/api' });
+                            const pollResponse = await api.get(`/resumes/${id}`, { baseURL: API_BASE_URL });
 
                             // Always update the resume state
                             setResume(pollResponse.data);
@@ -257,7 +257,7 @@ const Editor = () => {
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            const response = await api.put(`/resumes/${id}`, { resumeData }, { baseURL: 'http://localhost:5000/api' });
+            const response = await api.put(`/resumes/${id}`, { resumeData }, { baseURL: API_BASE_URL });
             setAtsScore(response.data.atsScore);
             lastSavedDataRef.current = JSON.stringify(resumeData);
             setAutoSaveStatus('saved');
@@ -276,7 +276,7 @@ const Editor = () => {
         setIsRegenerating(true);
         toast.loading('Regenerating...', { id: 'regen' });
         try {
-            await api.post(`/resumes/${id}/regenerate`, {}, { baseURL: 'http://localhost:5000/api' });
+            await api.post(`/resumes/${id}/regenerate`, {}, { baseURL: API_BASE_URL });
 
             // Update status locally to trigger the AI generating view
             setResume(prev => ({ ...prev, status: 'generating' }));
@@ -290,7 +290,7 @@ const Editor = () => {
             const interimStatuses = ['processing', 'analyzing', 'generating', 'uploading'];
             pollIntervalRef.current = setInterval(async () => {
                 try {
-                    const pollResponse = await api.get(`/resumes/${id}`, { baseURL: 'http://localhost:5000/api' });
+                    const pollResponse = await api.get(`/resumes/${id}`, { baseURL: API_BASE_URL });
                     setResume(pollResponse.data);
 
                     if (pollResponse.data.resumeData && Object.keys(pollResponse.data.resumeData).length > 0) {

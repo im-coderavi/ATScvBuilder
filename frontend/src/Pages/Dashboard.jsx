@@ -33,7 +33,7 @@ import {
 } from 'lucide-react';
 import AuthContext from '../Context/AuthContext';
 import FileUpload from '../Components/Resume/FileUpload';
-import api from '../Services/api';
+import api, { API_BASE_URL } from '../Services/api';
 import toast from 'react-hot-toast';
 import Button from '../Components/UI/Button';
 import Card from '../Components/UI/Card';
@@ -53,7 +53,7 @@ const Dashboard = () => {
 
     const fetchResumes = async () => {
         try {
-            const response = await api.get('/resumes', { baseURL: 'http://localhost:5000/api' });
+            const response = await api.get('/resumes', { baseURL: API_BASE_URL });
             setResumes(response.data);
             setFilteredResumes(response.data);
         } catch (error) {
@@ -106,7 +106,7 @@ const Dashboard = () => {
         setFilteredResumes(filteredResumes.filter(r => r._id !== id));
 
         try {
-            await api.delete(`/resumes/${id}`, { baseURL: 'http://localhost:5000/api' });
+            await api.delete(`/resumes/${id}`, { baseURL: API_BASE_URL });
             toast.success('Resume deleted');
         } catch (error) {
             // Revert on error
@@ -126,7 +126,7 @@ const Dashboard = () => {
         setFilteredResumes(updatedResumes);
 
         try {
-            await api.patch(`/resumes/${id}/title`, { title: newTitle }, { baseURL: 'http://localhost:5000/api' });
+            await api.patch(`/resumes/${id}/title`, { title: newTitle }, { baseURL: API_BASE_URL });
             toast.success('Resume renamed');
         } catch (error) {
             // Revert on error
@@ -816,21 +816,21 @@ const ATSCheckTab = ({ resumes }) => {
             // 1. Fetch Left Resume Analysis
             let leftResult = null;
             if (leftResumeId) {
-                const res = await api.post(`/resumes/${leftResumeId}/analyze`, {}, { baseURL: 'http://localhost:5000/api' });
+                const res = await api.post(`/resumes/${leftResumeId}/analyze`, {}, { baseURL: API_BASE_URL });
                 leftResult = res.data;
             }
 
             // 2. Fetch Right Resume Analysis
             let rightResult = null;
             if (rightSelection === 'select' && rightResumeId) {
-                const res = await api.post(`/resumes/${rightResumeId}/analyze`, {}, { baseURL: 'http://localhost:5000/api' });
+                const res = await api.post(`/resumes/${rightResumeId}/analyze`, {}, { baseURL: API_BASE_URL });
                 rightResult = res.data;
             } else if (rightSelection === 'upload' && compareFile) {
                 const formData = new FormData();
                 formData.append('resume', compareFile);
                 const res = await api.post('/resumes/analyze-file', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
-                    baseURL: 'http://localhost:5000/api'
+                    baseURL: API_BASE_URL
                 });
                 rightResult = res.data;
             }

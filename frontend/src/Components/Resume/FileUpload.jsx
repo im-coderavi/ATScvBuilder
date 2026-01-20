@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, FileText, X, Loader, Sparkles, AlertCircle } from 'lucide-react';
-import api from '../../Services/api';
+import api, { API_BASE_URL } from '../../Services/api';
 import toast from 'react-hot-toast';
 import Button from '../UI/Button';
 
@@ -18,7 +18,7 @@ const FileUpload = ({ onUploadSuccess }) => {
     const handleCreateFromScratch = async () => {
         setIsCreating(true);
         try {
-            const response = await api.post('/resumes/create', {}, { baseURL: 'http://localhost:5000/api' });
+            const response = await api.post('/resumes/create', {}, { baseURL: API_BASE_URL });
             toast.success('New resume created!');
             if (onUploadSuccess) onUploadSuccess(response.data.resumeId);
         } catch (error) {
@@ -73,7 +73,7 @@ const FileUpload = ({ onUploadSuccess }) => {
         try {
             const response = await api.post('/resumes/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
-                baseURL: 'http://localhost:5000/api'
+                baseURL: API_BASE_URL
             });
             toast.success('Resume uploaded! Optimizing...');
             setFile(null);
