@@ -1,4 +1,4 @@
-# 🚀 ResumeAI - ATS-Optimized Resume Builder  
+# 🚀 ResumeAI - ATS-Optimized Resume Builder
 
 <div align="center">
 
